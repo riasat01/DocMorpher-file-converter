@@ -3,7 +3,7 @@ import logo2 from "../../assets/Navbar-logo/simple-data-format.png"
 import logo3 from "../../assets/Navbar-logo/user.png"
 import logo4 from "../../assets/Navbar-logo/enter.png"
 import logo5 from "../../assets/Navbar-logo/letter-d.png"
-import logo6 from "../../assets/Navbar-logo/letter-d.png"
+import logo6 from "../../assets/Navbar-logo/qr-code.png"
 import { Link, NavLink } from "react-router-dom"
 
 const Navbar = () => {
@@ -26,7 +26,7 @@ const Navbar = () => {
             </li>
         </>
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-base-100 sticky top-0 z-10 backdrop-blur-sm bg-white/30">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -46,7 +46,8 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <Link>
+                <Link to="/qrCode" className="mr-2">
+                    <img className="w-6" src={logo6} alt="logo6" />
                 </Link>
                 <Link to="/login" className="btn text-lg font-semibold">
                     <img className="w-6" src={logo4} alt="logo4" />
