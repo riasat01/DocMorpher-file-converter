@@ -3,6 +3,7 @@ import logo2 from "../../assets/Navbar-logo/simple-data-format.png"
 import logo3 from "../../assets/Navbar-logo/user.png"
 import logo4 from "../../assets/Navbar-logo/enter.png"
 import logo5 from "../../assets/Navbar-logo/letter-d.png"
+import logo6 from "../../assets/Navbar-logo/letter-d.png"
 import { Link, NavLink } from "react-router-dom"
 
 const Navbar = () => {
@@ -45,6 +46,8 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
+                <Link>
+                </Link>
                 <Link to="/login" className="btn text-lg font-semibold">
                     <img className="w-6" src={logo4} alt="logo4" />
                     Login</Link>

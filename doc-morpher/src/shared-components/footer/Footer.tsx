@@ -2,7 +2,6 @@ import logo1 from "../../assets/Navbar-logo/letter-d.png"
 import logo2 from "../../assets/Navbar-logo/twitter.png"
 import logo3 from "../../assets/Navbar-logo/youtube.png"
 import logo4 from "../../assets/Navbar-logo/facebook.png"
-import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -36,15 +35,15 @@ const Footer = () => {
                 </aside>
                 <nav className="md:place-self-center md:justify-self-end">
                     <div className="grid grid-flow-col gap-4">
-                        <Link target="_blank" to="https://twitter.com/">
+                        <a target="_blank" href="https://twitter.com/">
                             <img className="w-8" src={logo2} alt="logo2" />
-                        </Link>
-                        <Link target="_blank" to="https://www.youtube.com/">
+                        </a>
+                        <a target="_blank" href="https://www.youtube.com/">
                             <img className="w-8" src={logo3} alt="logo3" />
-                        </Link>
-                        <Link target="_blank" to="https://www.facebook.com/">
+                        </a>
+                        <a target="_blank" href="https://www.facebook.com/">
                             <img className="w-8" src={logo4} alt="logo4" />
-                        </Link>
+                        </a>
                     </div>
                 </nav>
             </footer></>
