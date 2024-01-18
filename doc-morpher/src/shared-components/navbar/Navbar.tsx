@@ -3,24 +3,25 @@ import logo2 from "../../assets/Navbar-logo/simple-data-format.png"
 import logo3 from "../../assets/Navbar-logo/user.png"
 import logo4 from "../../assets/Navbar-logo/enter.png"
 import logo5 from "../../assets/Navbar-logo/letter-d.png"
+import { Link, NavLink } from "react-router-dom"
 
 const Navbar = () => {
     const routes =
         <>
             <li>
-                <a className="font-semibold md:text-lg">
+                <NavLink to="/converter" className="font-semibold md:text-lg">
                     <img className="w-6" src={logo1} alt="logo1" />
-                    Converter</a>
+                    Converter</NavLink>
             </li>
             <li>
-                <a className="font-semibold md:text-lg">
+                <NavLink to="/fileFormat" className="font-semibold md:text-lg">
                     <img className="w-6" src={logo2} alt="logo2" />
-                    File Formate</a>
+                    File Formate</NavLink>
             </li>
             <li>
-                <a className="font-semibold md:text-lg">
+                <NavLink to="/aboutUs" className="font-semibold md:text-lg">
                     <img className="w-6" src={logo3} alt="logo3" />
-                    About Us</a>
+                    About Us</NavLink>
             </li>
         </>
     return (
@@ -44,9 +45,9 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn text-lg font-semibold">
+                <Link to="/login" className="btn text-lg font-semibold">
                     <img className="w-6" src={logo4} alt="logo4" />
-                    Login</a>
+                    Login</Link>
             </div>
         </div>
     );

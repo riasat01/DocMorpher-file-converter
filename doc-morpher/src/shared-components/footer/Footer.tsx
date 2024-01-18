@@ -2,6 +2,7 @@ import logo1 from "../../assets/Navbar-logo/letter-d.png"
 import logo2 from "../../assets/Navbar-logo/twitter.png"
 import logo3 from "../../assets/Navbar-logo/youtube.png"
 import logo4 from "../../assets/Navbar-logo/facebook.png"
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -29,15 +30,21 @@ const Footer = () => {
         </footer><footer className="footer px-10 py-4 border-t bg-base-100 text-base-content border-base-300">
                 <aside className="items-center grid-flow-col">
                     
-                    <p className="flex items-center">Copyright © 2024 - All right reserved by <a className="mx-1 btn btn-ghost md:text-2xl p-0 m-0">
+                    <p className="flex items-center">Copyright © 2024 - All right reserved by <a className="mx-1 btn btn-ghost md:text-lg p-0 m-0">
                         <img className="w-6 m-0 p-0" src={logo1} alt="logo1" />
                         ocMorpher</a> Industries Ltd</p>
                 </aside>
                 <nav className="md:place-self-center md:justify-self-end">
                     <div className="grid grid-flow-col gap-4">
-                        <img className="w-8" src={logo2} alt="logo2" />
-                        <img className="w-8" src={logo3} alt="logo3" />
-                        <img className="w-8" src={logo4} alt="logo4" />
+                        <Link target="_blank" to="https://twitter.com/">
+                            <img className="w-8" src={logo2} alt="logo2" />
+                        </Link>
+                        <Link target="_blank" to="https://www.youtube.com/">
+                            <img className="w-8" src={logo3} alt="logo3" />
+                        </Link>
+                        <Link target="_blank" to="https://www.facebook.com/">
+                            <img className="w-8" src={logo4} alt="logo4" />
+                        </Link>
                     </div>
                 </nav>
             </footer></>
