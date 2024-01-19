@@ -6,6 +6,7 @@ import Pdf from "../../pages/pdf/Pdf";
 import Doc from "../../pages/doc/Doc";
 import Ppt from "../../pages/ppt/Ppt";
 import Image from "../../pages/image/Image";
+import UserProfile from "../../pages/UserProfile/UserProfile";
 
 
 const MainRoute = createBrowserRouter([
@@ -33,6 +34,10 @@ const MainRoute = createBrowserRouter([
             {
                 path: '/image',
                 element: <Image />
+            },
+            {
+                path: '/profile',
+                element: <UserProfile />
             }
         ]
     }
