@@ -5,6 +5,7 @@ import logo4 from "../../assets/Navbar-logo/enter.png"
 import logo5 from "../../assets/Navbar-logo/letter-d.png"
 import logo6 from "../../assets/Navbar-logo/qr-code.png"
 import logo7 from "../../assets/Navbar-logo/home.png"
+import logo8 from "../../assets/Navbar-logo/userPerson.png"
 import { Link, NavLink } from "react-router-dom"
 
 const Navbar = () => {
@@ -29,6 +30,11 @@ const Navbar = () => {
                 <NavLink to="/aboutUs" className="font-semibold md:text-lg">
                     <img className="w-6" src={logo3} alt="logo3" />
                     About Us</NavLink>
+            </li>
+            <li>
+                <NavLink to="/profile" className="font-semibold md:text-lg">
+                    <img className="w-6" src={logo8} alt="logo8" />
+                    Profile</NavLink>
             </li>
         </>
     return (
