@@ -4,11 +4,17 @@ import logo3 from "../../assets/Navbar-logo/user.png"
 import logo4 from "../../assets/Navbar-logo/enter.png"
 import logo5 from "../../assets/Navbar-logo/letter-d.png"
 import logo6 from "../../assets/Navbar-logo/qr-code.png"
+import logo7 from "../../assets/Navbar-logo/home.png"
 import { Link, NavLink } from "react-router-dom"
 
 const Navbar = () => {
     const routes =
         <>
+            <li>
+                <NavLink to="/" className="font-semibold md:text-lg">
+                    <img className="w-6" src={logo7} alt="logo7" />
+                    Home</NavLink>
+            </li>
             <li>
                 <NavLink to="/converter" className="font-semibold md:text-lg">
                     <img className="w-6" src={logo1} alt="logo1" />
@@ -36,9 +42,9 @@ const Navbar = () => {
                         {routes}
                     </ul>
                 </div>
-                <a className="btn btn-ghost md:text-2xl p-0 m-0">
+                <Link to="/" className="btn btn-ghost md:text-2xl p-0 m-0">
                     <img className="w-6 md:w-10 m-0 p-0" src={logo5} alt="logo5" />
-                    ocMorpher</a>
+                    ocMorpher</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
