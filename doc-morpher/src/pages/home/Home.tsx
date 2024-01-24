@@ -1,7 +1,8 @@
-import Dnd from "./dnd/Dnd";
+
 import { useContext } from "react";
 import Categories from "./home-sections/categories/Categories";
 import { userContext } from "../../provider/auth-provider/AuthProvider";
+import Dnd from "./home-sections/dnd/Dnd";
 
 
 const Home = () => {
