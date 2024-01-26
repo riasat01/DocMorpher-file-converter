@@ -2,7 +2,13 @@ import { ChangeEvent, useState } from "react";
 import DragArea from "./DragArea";
 import FileList from "./FileList";
 
+interface File {
+  name: string;
+  size: number;
+}
+
 interface DndProps {}
+
 const Dnd: React.FC<DndProps> = () => {
   const [fileList, setFileList] = useState<File[]>([]);
 
