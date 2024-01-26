@@ -36,6 +36,12 @@ if (fileInput){
   
 
   return (
+
+    <div>
+      <div> 
+       <h1 className="text-center font-bold text-3xl py-5"> File Converter (Free & premium)</h1>
+        <h2 className="text-center font-semibold text-xl py-2">Easily convert files from one format to another</h2>
+      </div>
     <div className="flex justify-evenly md:flex-row flex-col  my-10 py-3 bg-gray-200">
       {/* dnd part */}
 
@@ -83,6 +89,7 @@ if (fileInput){
           Convert
         </button>
       </div>
+    </div>
     </div>
   );
 };
