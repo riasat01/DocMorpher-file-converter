@@ -1,26 +1,28 @@
-import { useState } from "react";
+import { DragEvent, useState } from "react";
 
-
-const DragArea = (props) => 
-    //  function DragArea(props)
+interface DragAreaProps{
+  addFile: (file: File) => void;
+}
+const DragArea: React.FC<DragAreaProps> = (props) => 
+ 
       {
         const [isDraggedOver, setIsDraggedOver] = useState(false);
       
-        const dragEnterHandler = (e) => {
+        const dragEnterHandler = (e: DragEvent<HTMLDivElement>) => {
           e.preventDefault();
           setIsDraggedOver(true);
         };
       
-        const dragLeaveHandler = (e) => {
+        const dragLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
           e.preventDefault();
           setIsDraggedOver(false);
         };
       
-        const dragOverHandler = (e) => {
+        const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
           e.preventDefault();
         };
       
-        const dragDropHandler = (e) => {
+        const dragDropHandler = (e: DragEvent<HTMLDivElement>) => {
           e.preventDefault();
           const file = e.dataTransfer.files[0];
       

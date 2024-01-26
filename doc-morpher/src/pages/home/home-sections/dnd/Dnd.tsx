@@ -1,28 +1,36 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import DragArea from "./DragArea";
 import FileList from "./FileList";
 
-const Dnd = () => {
-  const [fileList, setFileList] = useState([]);
+interface File {
+  name: string;
+  size: number;
+}
 
-  const addFile = (file) => {
+interface DndProps {}
+
+const Dnd: React.FC<DndProps> = () => {
+  const [fileList, setFileList] = useState<File[]>([]);
+
+  const addFile = (file: File) => {
     setFileList([...fileList, file]);
   };
 
-  const handleFileInputChange = (event) => {
+  const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const fileInput = event.target;
     const files = fileInput.files;
-
+if (files){
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       addFile(file);
     }
+  }
+if (fileInput){    
+    fileInput.value = "";
+  }
+};
 
-    
-    fileInput.value = null;
-  };
-
-  const handleDelete = (updatedFileList) => {
+  const handleDelete = (updatedFileList:File[]) => {
     setFileList(updatedFileList);
   };
   
