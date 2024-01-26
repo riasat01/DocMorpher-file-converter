@@ -22,7 +22,17 @@ export interface AuthInfo {
     logOut: () => Promise<void>;
 }
 
-export const UserContext = createContext<AuthInfo | null>(null);
+const initialAuthInfo: AuthInfo = {
+    user: null,
+    loader: true,
+    createEmailPasswordUser: async (email, password) => createUserWithEmailAndPassword(auth, email, password),
+    createGoogleUser: async () => signInWithPopup(auth, new GoogleAuthProvider()),
+    createGithubUser: async () => signInWithPopup(auth, new GithubAuthProvider()),
+    loggedinUser: async (email, password) => signInWithEmailAndPassword(auth, email, password),
+    logOut: async () => signOut(auth),
+  };
+
+export const UserContext = createContext<AuthInfo>(initialAuthInfo);
 
 
 const googleProvider : GoogleAuthProvider = new GoogleAuthProvider();

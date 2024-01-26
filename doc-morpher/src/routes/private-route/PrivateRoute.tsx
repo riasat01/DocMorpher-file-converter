@@ -1,15 +1,16 @@
-import { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { userContext } from "../../provider/auth-provider/AuthProvider";
+import useAuth from "../../Hooks/useAuth";
+import { ReactNode } from "react";
 
 
-const PrivateRoute = ({ children }) => {
-  const { user, loading } = useContext(userContext);
+const PrivateRoute = ({ children }: {children: ReactNode}) => {
+  const auth = useAuth()!; //not-null assertion
+  const { user, loader } = auth as { user: { email?: string } | null; loader: boolean };
 
   const location = useLocation();
   console.log(location);
 
-  if (loading) {
+  if (loader) {
     return <progress className="progress w-56"></progress>;
   }
 
