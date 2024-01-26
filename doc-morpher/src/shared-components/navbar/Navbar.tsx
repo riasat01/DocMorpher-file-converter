@@ -24,12 +24,7 @@ const Navbar = () => {
             <li>
                 <NavLink to="/fileFormat" className="font-semibold md:text-lg">
                     <img className="w-6" src={logo2} alt="logo2" />
-                    File Format</NavLink>
-            </li>
-            <li>
-                <NavLink to="/pricing" className="font-semibold md:text-lg">
-                    <img className="w-6" src={logo2} alt="logo2" />
-                    Pricing</NavLink>
+                    File Formate</NavLink>
             </li>
             <li>
                 <NavLink to="/aboutUs" className="font-semibold md:text-lg">
