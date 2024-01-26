@@ -7,11 +7,10 @@ import Pdf from "../../pages/pdf/Pdf";
 import Doc from "../../pages/doc/Doc";
 import Ppt from "../../pages/ppt/Ppt";
 import Image from "../../pages/image/Image";
-import UserProfile from "../../pages/UserProfile/UserProfile";
 import Login from "../../pages/Login/Login";
 import SignUp from "../../pages/SignUp/SignUp";
-import Pricing from "../../pages/Pricing/Pricing/Pricing";
-import Payment from "../../pages/Payment/Payment/Payment";
+import AboutUs from "../../pages/aboutUs/AboutUs";
+
 
 
 const MainRoute = createBrowserRouter([
@@ -45,8 +44,8 @@ const MainRoute = createBrowserRouter([
                 element: <Image />
             },
             {
-                path: '/profile',
-                element: <UserProfile />
+                path: '/login',
+                element: <Login/>
             },
             {
                 path: '/login',
@@ -54,15 +53,11 @@ const MainRoute = createBrowserRouter([
             },
             {
                 path: '/signup',
-                element: <SignUp />
+                element: <SignUp/>
             },
             {
-                path: '/pricing',
-                element: <Pricing />
-            },
-            {
-                path: '/payment/:price',
-                element: <Payment />
+                path: '/aboutUs',
+                element: <AboutUs/>
             },
         ]
     }
