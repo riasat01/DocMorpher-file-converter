@@ -2,26 +2,29 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../custom-hooks/use-auth/useAuth";
 import { FormEvent } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { AuthInfo } from "../../provider/auth-provider/AuthProvider";
 
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
     console.log(location?.state?.pathname);
-    const { loggedinUser, createGoogleUser, createGithubUser, user } = useAuth();
+    const { loggedinUser, createGoogleUser, createGithubUser, user } = useAuth() as AuthInfo;
     console.log(user)
     const handleLogin = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
+        const email = (e.target as any).email.value;
+        const password = (e.target as any).password.value;
 
         loggedinUser(email, password)
             .then((user) => {
                 toast.success('Successfully Login!!');
-                e.target.reset()
+                (e.target as any).reset()
                 navigate('/');
+                console.log(user);
             })
             .catch((error) => {
                 toast.error('Login failed');
+                console.log(error);
             })
     }
 
@@ -30,22 +33,23 @@ const Login = () => {
             .then((result) => {
                 toast('Successfully Login!!');
                 navigate('/')
+                console.log(result);
             })
             .catch((error) => {
                 toast('Login failed');
-                // console.log(error);
+                console.log(error);
             })
     }
     const handleGithubPopUp = () => {
         createGithubUser()
             .then((result) => {
                 toast.success('Successfully Login!!');
-                // console.log('github login')
-                navigate('/')
+                navigate('/');
+                console.log(result);
             })
             .catch((error) => {
                 toast.error('Login failed');
-                // console.log(error);
+                console.log(error);
             })
     }
     return (

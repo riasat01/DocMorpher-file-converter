@@ -5,11 +5,14 @@ import auth from '../../firebase/firebase.config.js'
 // import axios from "axios";
 
 
+
+
+export const userContext = createContext(null);
 interface authProviderProps {
     children: ReactNode
 }
 
-interface AuthInfo {
+export interface AuthInfo {
     user: User | null;
     loader: boolean;
     createEmailPasswordUser: (email: string, password: string) => Promise<UserCredential>;
@@ -66,7 +69,6 @@ const AuthProvider = ({ children }: authProviderProps) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/auth.user
-
 
 
                 setUser(user);
