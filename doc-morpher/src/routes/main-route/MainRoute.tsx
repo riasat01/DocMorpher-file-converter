@@ -8,6 +8,10 @@ import Doc from "../../pages/doc/Doc";
 import Ppt from "../../pages/ppt/Ppt";
 import Image from "../../pages/image/Image";
 import UserProfile from "../../pages/UserProfile/UserProfile";
+import Login from "../../pages/Login/Login";
+import SignUp from "../../pages/SignUp/SignUp";
+import Pricing from "../../pages/Pricing/Pricing/Pricing";
+import Payment from "../../pages/Payment/Payment/Payment";
 
 
 const MainRoute = createBrowserRouter([
@@ -43,7 +47,23 @@ const MainRoute = createBrowserRouter([
             {
                 path: '/profile',
                 element: <UserProfile />
-            }
+            },
+            {
+                path: '/login',
+                element: <Login/>
+            },
+            {
+                path: '/signup',
+                element: <SignUp />
+            },
+            {
+                path: '/pricing',
+                element: <Pricing />
+            },
+            {
+                path: '/payment/:price',
+                element: <Payment />
+            },
         ]
     }
 ])
