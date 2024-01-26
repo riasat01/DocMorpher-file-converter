@@ -1,63 +1,54 @@
-import axios from "axios";
-import { useContext } from "react";
-import toast from "react-hot-toast";
-import { Link, Navigate, useLocation, useNavigate, useNavigation } from "react-router-dom";
-import { userContext } from "../../provider/auth-provider/AuthProvider";
-import { collectionGroup } from "firebase/firestore";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../custom-hooks/use-auth/useAuth";
+import { FormEvent } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { AuthInfo } from "../../provider/auth-provider/AuthProvider";
 
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
     console.log(location?.state?.pathname);
-    const { loggedinUser, createGoogleUser,createGithubUser, user } = useContext(userContext);
-console.log(user)
-    const handleLogin = (e) => {
+    const { loggedinUser, createGoogleUser, createGithubUser, user } = useAuth() as AuthInfo;
+    console.log(user)
+    const handleLogin = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        e.target.reset()
-
-        if (password < 6) {
-            return toast.error('At least 6 characters');
-        }
-        else if (!/[A-Z]/.test(password)) {
-            return toast.error('At least 1 capital letter');
-        }
-        else if (!/[!S#$%&?]/.test(password)) {
-            return toast.error('At least 1 special character');
-        }
-        else if (!/[0-9]/.test(password)) {
-            return toast.error('At least 1 numeric character');
-        }
+        const email = (e.target as any).email.value;
+        const password = (e.target as any).password.value;
 
         loggedinUser(email, password)
             .then((user) => {
                 toast.success('Successfully Login!!');
-                navigate('/')
+                (e.target as any).reset()
+                navigate('/');
+                console.log(user);
             })
-            .then((error) => {
-                toast.success('not login');
+            .catch((error) => {
+                toast.error('Login failed');
+                console.log(error);
             })
     }
 
     const handleGooglePopUp = () => {
         createGoogleUser()
             .then((result) => {
-               toast.success('Successfully Login!!');
+                toast('Successfully Login!!');
                 navigate('/')
+                console.log(result);
             })
-            .then((error) => {
+            .catch((error) => {
+                toast('Login failed');
                 console.log(error);
             })
     }
     const handleGithubPopUp = () => {
         createGithubUser()
             .then((result) => {
-               toast.success('Successfully Login!!');
-                console.log('github login')
-                navigate('/')
+                toast.success('Successfully Login!!');
+                navigate('/');
+                console.log(result);
             })
-            .then((error) => {
+            .catch((error) => {
+                toast.error('Login failed');
                 console.log(error);
             })
     }
@@ -90,18 +81,20 @@ console.log(user)
                                     </label>
                                 </div>
                                 <div className="form-control mt-6">
-                                    <button className="btn btn-primary">Login</button>
+                                    {/* <button type="submit" className="btn btn-primary">Login</button>0 */}
+                                    <input type="submit" className="btn btn-primary" value="Login" />
                                 </div>
                                 <div>
                                     <p>Dont have Account? <Link className="text-green-600 font-bold" to={'/signup'}>Create an Account</Link></p>
-                                    <p>Or, continue with <Link className="text-green-600 font-bold" onClick={handleGooglePopUp}>Google</Link></p>
-                                    <p>Or, continue with <Link className="text-green-600 font-bold" onClick={handleGithubPopUp}>Github</Link></p>
+                                    <p>Or, continue with <button className="text-green-600 font-bold" onClick={handleGooglePopUp}>Google</button></p>
+                                    <p>Or, continue with <button className="text-green-600 font-bold" onClick={handleGithubPopUp}>Github</button></p>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
 
     );

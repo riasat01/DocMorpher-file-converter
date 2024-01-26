@@ -1,8 +1,9 @@
 import { ReactNode } from "react";
 import { createContext, useEffect, useState } from "react";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut,GithubAuthProvider } from "firebase/auth";
-import auth from "../../Hooks/authentication.config";
-import axios from "axios";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, GithubAuthProvider, User, UserCredential } from "firebase/auth";
+import auth from '../../firebase/firebase.config.js'
+// import axios from "axios";
+
 
 
 
@@ -11,33 +12,57 @@ interface authProviderProps {
     children: ReactNode
 }
 
+export interface AuthInfo {
+    user: User | null;
+    loader: boolean;
+    createEmailPasswordUser: (email: string, password: string) => Promise<UserCredential>;
+    createGoogleUser: () => Promise<UserCredential>;
+    createGithubUser: () => Promise<UserCredential>;
+    loggedinUser: (email: string, password: string) => Promise<UserCredential>;
+    logOut: () => Promise<void>;
+}
+
+export const UserContext = createContext<AuthInfo | null>(null);
+
+
+const googleProvider : GoogleAuthProvider = new GoogleAuthProvider();
+const githubProvider : GithubAuthProvider = new GithubAuthProvider();
+
+
+
 const AuthProvider = ({ children }: authProviderProps) => {
 
-    const [user, setUser] = useState(null);
-    const [loader, setLoader] = useState(true);
+    const [user, setUser] = useState <User | null> (null);
+    const [loader, setLoader] = useState <boolean> (true);
 
-    const createEmailPasswordUser = (email, password) => {
+    const createEmailPasswordUser : (email: string, password: string) => Promise<UserCredential> = (email, password) => {
         setLoader(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
 
-    const createGoogleUser = () => {
-        const provider = new GoogleAuthProvider();
+    const createGoogleUser : () => Promise<UserCredential> = () => {
         setLoader(true);
-        return signInWithPopup(auth, provider);
+        return signInWithPopup(auth, googleProvider);
 
     }
-    const createGithubUser = () => {
-        const provider = new GithubAuthProvider();
+    const createGithubUser : () => Promise<UserCredential> = () => {
         setLoader(true);
-        return signInWithPopup(auth, provider);
+        return signInWithPopup(auth, githubProvider);
 
     }
 
-    const loggedinUser = (email, password) => {
+    const loggedinUser : (email: string, password: string) => Promise<UserCredential> = (email, password) => {
         setLoader(true);
         return signInWithEmailAndPassword(auth, email, password)
     }
+
+    
+    const logOut : () => Promise<void> = () => {
+        return signOut(auth)
+    }
+
+
+
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -46,7 +71,6 @@ const AuthProvider = ({ children }: authProviderProps) => {
                 // https://firebase.google.com/docs/reference/js/auth.user
 
 
-                
                 setUser(user);
                 setLoader(false);
 
@@ -59,17 +83,6 @@ const AuthProvider = ({ children }: authProviderProps) => {
         )
     }, []);
 
-    const signUp = () => {
-        signOut(auth).then(() => {
-            setUser(null);
-            setLoader(false)
-        }).catch(() => {
-
-        });
-    }
-
-    
-
     const authInfo = {
         user,
         loader,
@@ -77,14 +90,14 @@ const AuthProvider = ({ children }: authProviderProps) => {
         createGoogleUser,
         createGithubUser,
         loggedinUser,
-        signUp,
+        logOut,
     }
 
     return (
         <div>
-            <userContext.Provider value={authInfo}>
+            <UserContext.Provider value={authInfo}>
                 {children}
-            </userContext.Provider>
+            </UserContext.Provider>
         </div>
     );
 };

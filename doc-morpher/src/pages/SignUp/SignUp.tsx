@@ -1,39 +1,44 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { userContext } from "../../provider/auth-provider/AuthProvider";
+import useAuth from "../../custom-hooks/use-auth/useAuth";
+import { FormEvent } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { AuthInfo } from "../../provider/auth-provider/AuthProvider";
 
 const SignUp = () => {
     const navigate = useNavigate();
-    const { createEmailPasswordUser, user } = useContext(userContext);
-    console.log(user);
-    const handleRegitration = (e) => {
+    const auth = useAuth() as AuthInfo;
+    const {createEmailPasswordUser} =auth || {};
+    const handleRegitration = (e : FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
+        const email = (e.target as  any).email.value;
+        const password = (e.target as any).password.value;
         
-
+        console.log(email, password);
         // password validation
         if (password < 6) {
-            return toast.error('At least 6 characters');
+            console.log('e1');
+            return toast('At least 6 characters');
         }
         else if (!/[A-Z]/.test(password)) {
-            return toast.error('At least 1 capital letter');
+            console.log('e2');
+            return toast('At least 1 capital letter');
         }
-        else if (!/[!S#$%&?]/.test(password)) {
-            return toast.error('At least 1 special character');
+        else if (!/[@!S#$%&?]/.test(password)) {
+            console.log('e3');
+            return toast('At least 1 special character');
         }
         else if (!/[0-9]/.test(password)) {
-            return toast.error('At least 1 numeric character');
+            console.log('e4');
+            return toast('At least 1 numeric character');
         }
 
         createEmailPasswordUser(email, password)
             .then(() => {
                 toast.success('Successfully Login!!');
-                e.target.reset();
+                (e.target as  any).reset();
                 navigate('/')
             })
+            .catch(error => console.log(error))
 
     }
     return (
@@ -61,7 +66,8 @@ const SignUp = () => {
                                 <input type="password" name="password" placeholder="password" className="input input-bordered" required />
                             </div>
                             <div className="form-control mt-6">
-                                <button className="btn btn-primary">Sign Up</button>
+                                {/* <button type="submit" className="btn btn-primary">Sign Up</button> */}
+                                <input type="submit"className="btn btn-primary" value="Sign Up" />
                             </div>
                             <div>
                                 <p>Already have a Account? <Link className="text-green-600 font-bold" to={'/login'}>Login!</Link></p>
@@ -71,6 +77,7 @@ const SignUp = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };
