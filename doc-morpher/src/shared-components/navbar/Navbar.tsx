@@ -1,4 +1,4 @@
-import logo1 from "../../assets/Navbar-logo/exchange.png"
+// import logo1 from "../../assets/Navbar-logo/exchange.png"
 import logo2 from "../../assets/Navbar-logo/simple-data-format.png"
 import logo3 from "../../assets/Navbar-logo/user.png"
 import logo4 from "../../assets/Navbar-logo/enter.png"
@@ -16,7 +16,7 @@ const Navbar = () => {
                     <img className="w-6" src={logo7} alt="logo7" />
                     Home</NavLink>
             </li>
-            <li>
+            {/* <li>
                 <NavLink to="/converter" className="font-semibold md:text-lg">
                     <img className="w-6" src={logo1} alt="logo1" />
                     Converter</NavLink>
@@ -25,7 +25,7 @@ const Navbar = () => {
                 <NavLink to="/fileFormat" className="font-semibold md:text-lg">
                     <img className="w-6" src={logo2} alt="logo2" />
                     File Format</NavLink>
-            </li>
+            </li> */}
             <li>
                 <NavLink to="/pricing" className="font-semibold md:text-lg">
                     <img className="w-6" src={logo2} alt="logo2" />

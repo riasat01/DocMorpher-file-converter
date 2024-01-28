@@ -10,6 +10,8 @@ import Image from "../../pages/image/Image";
 import Login from "../../pages/Login/Login";
 import SignUp from "../../pages/SignUp/SignUp";
 import AboutUs from "../../pages/aboutUs/AboutUs";
+import UserProfile from "../../pages/UserProfile/UserProfile";
+import Pricing from "../../pages/Pricing/Pricing/Pricing";
 
 
 
@@ -44,8 +46,8 @@ const MainRoute = createBrowserRouter([
                 element: <Image />
             },
             {
-                path: '/login',
-                element: <Login/>
+                path: '/profile',
+                element: <UserProfile />
             },
             {
                 path: '/login',
@@ -59,6 +61,10 @@ const MainRoute = createBrowserRouter([
                 path: '/aboutUs',
                 element: <AboutUs/>
             },
+            {
+                path: '/pricing',
+                element: <Pricing />
+            }
         ]
     }
 ])

@@ -1,15 +1,16 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { FormEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import useAuth from "../../../Hooks/useAuth";
+// import useAuth from "../../../Hooks/useAuth";
 
 
 const CheckoutForm = ({ price }: { price: string | undefined }) => {
-  const { user } = useAuth()!;
+  // const { user } = useAuth()!;
   // console.log(typeof price);
 
   const [error, setError] = useState("");
-  const [clientSecret, setClientSecret] = useState("");
+  // const [clientSecret, setClientSecret] = useState("");
+  // const [clientSecret, setClientSecret] = useState("");
 
   const stripe = useStripe();
   const elements = useElements();
@@ -27,7 +28,7 @@ const CheckoutForm = ({ price }: { price: string | undefined }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setClientSecret(data.clientSecret)
+        // setClientSecret(data.clientSecret)
       });
   }, [price]);
 
@@ -69,25 +70,24 @@ const CheckoutForm = ({ price }: { price: string | undefined }) => {
 
     // confirm payment method
     // TODO: Some update needed here
-    const { paymentIntent, error:confirmError} = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: card,
-        billing_details: {
-          email: user?.email || "anonymous",
-          name: user?.displayName || "Name is not found"
-        }
-      }
-    })
+      // const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+      //   payment_method: {
+      //     card: card,
+      //     billing_details: {
+      //       email: user?.email || "anonymous",
+      //       name: user?.displayName || "Name is not found"
+      //     }
+      //   }
+      // })
 
-    if (confirmError) {
-      console.log('confirm error');
+      // if (confirmError) {
+      //   console.log('confirm error');
 
-    } else {
-      console.log('payment intent', paymentIntent);
+      // } else {
+      //   console.log('payment intent', paymentIntent);
 
-    }
+      // }
   };
-
   return (
     <div className="p-5">
       <p className="text-xl text-center font-semibold">Your payment amout is: ${price}</p>
