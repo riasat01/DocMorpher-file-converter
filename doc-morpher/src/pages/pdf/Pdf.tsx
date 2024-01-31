@@ -41,11 +41,13 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className='flex justify-center items-center'>
+    <div className=' h-96 pt-28 text-center'>
       <input type="file" accept=".pdf" onChange={handleFileChange} />
       <button onClick={handleConvert} disabled={!file}>
         Convert to DOC
       </button>
+    </div>
     </div>
   );
 };
