@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
 import { FcCheckmark } from "react-icons/fc";
 
-const PricingCard = ({ title, price, storage, conversionPerMinutes, conversionAtTime, mergeAtTime, priority }) => {
+interface PricingCardPropType { 
+  title: string, 
+  price: string, 
+  storage: string, 
+  conversionPerMinutes: string, 
+  conversionAtTime: string, 
+  mergeAtTime: string, 
+  priority: string 
+}
+
+const PricingCard = ({ title, price, storage, conversionPerMinutes, conversionAtTime, mergeAtTime, priority }: PricingCardPropType) => {
   
   return (
     <div className="bg-green-100 p-5 rounded-md flex flex-col items-center  space-y-3">

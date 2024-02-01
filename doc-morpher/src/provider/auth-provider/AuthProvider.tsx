@@ -1,10 +1,13 @@
-import { ReactNode } from "react";
+import {  Dispatch, ReactNode, SetStateAction } from "react";
 import { createContext, useEffect, useState } from "react";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, GithubAuthProvider, User, UserCredential } from "firebase/auth";
-import auth from '../../firebase/firebase.config.js'
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, GithubAuthProvider, User, UserCredential, TwitterAuthProvider, updateProfile } from "firebase/auth";
+import auth from '../../firebase/firebase.config.js';
 // import axios from "axios";
 
-
+interface CustomUser extends User {
+    email: string,
+    displayName: string
+}
 
 
 export const userContext = createContext(null);
@@ -13,51 +16,88 @@ interface authProviderProps {
 }
 
 export interface AuthInfo {
-    user: User | null;
+    user: CustomUser | User | null;
     loader: boolean;
+    setLoader: Dispatch<SetStateAction<boolean>>;
     createEmailPasswordUser: (email: string, password: string) => Promise<UserCredential>;
     createGoogleUser: () => Promise<UserCredential>;
     createGithubUser: () => Promise<UserCredential>;
+    createTwitterUser: () => Promise<UserCredential>;
+    setUserInfo: (name: string, photo: string) => Promise<void>;
     loggedinUser: (email: string, password: string) => Promise<UserCredential>;
     logOut: () => Promise<void>;
 }
 
-export const UserContext = createContext<AuthInfo | null>(null);
+const initialAuthInfo: AuthInfo = {
+    user: null,
+    loader: true,
+    setLoader: (() => {}) as Dispatch<SetStateAction<boolean>>,
+    createEmailPasswordUser: async (email, password) => createUserWithEmailAndPassword(auth, email, password),
+    createGoogleUser: async () => signInWithPopup(auth, new GoogleAuthProvider()),
+    createGithubUser: async () => signInWithPopup(auth, new GithubAuthProvider()),
+    createTwitterUser: async () => signInWithPopup(auth, new TwitterAuthProvider()),
+    setUserInfo: async (name: string, photo: string) => updateProfile(auth?.currentUser as User, { displayName: name, photoURL: photo }),
+    loggedinUser: async (email, password) => signInWithEmailAndPassword(auth, email, password),
+    logOut: async () => signOut(auth),
+};
+
+export const UserContext = createContext<AuthInfo>(initialAuthInfo);
 
 
-const googleProvider : GoogleAuthProvider = new GoogleAuthProvider();
-const githubProvider : GithubAuthProvider = new GithubAuthProvider();
+const googleProvider: GoogleAuthProvider = new GoogleAuthProvider();
+const githubProvider: GithubAuthProvider = new GithubAuthProvider();
+const twitterProvider: TwitterAuthProvider = new TwitterAuthProvider();
 
 
 
 const AuthProvider = ({ children }: authProviderProps) => {
 
-    const [user, setUser] = useState <User | null> (null);
-    const [loader, setLoader] = useState <boolean> (true);
+    const [user, setUser] = useState<CustomUser | User | null>(null);
+    const [loader, setLoader] = useState<boolean>(true);
 
-    const createEmailPasswordUser : (email: string, password: string) => Promise<UserCredential> = (email, password) => {
+    // create user with email and password
+    const createEmailPasswordUser: (email: string, password: string) => Promise<UserCredential> = (email, password) => {
         setLoader(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
 
-    const createGoogleUser : () => Promise<UserCredential> = () => {
+    // continue with google
+    const createGoogleUser: () => Promise<UserCredential> = () => {
         setLoader(true);
         return signInWithPopup(auth, googleProvider);
 
     }
-    const createGithubUser : () => Promise<UserCredential> = () => {
+
+    // continue with github
+    const createGithubUser: () => Promise<UserCredential> = () => {
         setLoader(true);
         return signInWithPopup(auth, githubProvider);
 
     }
 
-    const loggedinUser : (email: string, password: string) => Promise<UserCredential> = (email, password) => {
+    // continue with twitter 
+    const createTwitterUser: () => Promise<UserCredential> = () => {
+        setLoader(true);
+        return signInWithPopup(auth, twitterProvider);
+    }
+
+    // sigin in with email and password
+    const loggedinUser: (email: string, password: string) => Promise<UserCredential> = (email, password) => {
         setLoader(true);
         return signInWithEmailAndPassword(auth, email, password)
     }
 
-    
-    const logOut : () => Promise<void> = () => {
+    // update user info 
+    const setUserInfo: (name: string, photo: string) => Promise<void> = (name, photo) => {
+        setLoader(true);
+        return updateProfile(auth?.currentUser as User, {
+            displayName: name,
+            photoURL: photo
+        })
+    }
+
+    // log out
+    const logOut: () => Promise<void> = () => {
         return signOut(auth)
     }
 
@@ -70,7 +110,7 @@ const AuthProvider = ({ children }: authProviderProps) => {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/auth.user
 
-
+                console.log(user);
                 setUser(user);
                 setLoader(false);
 
@@ -86,10 +126,13 @@ const AuthProvider = ({ children }: authProviderProps) => {
     const authInfo = {
         user,
         loader,
+        setLoader,
         createEmailPasswordUser,
         createGoogleUser,
         createGithubUser,
+        createTwitterUser,
         loggedinUser,
+        setUserInfo,
         logOut,
     }
 

@@ -1,4 +1,4 @@
-import PricingCard from "../../Pricing/PricingCard/PricingCard";
+import PricingCard from "../PricingCard/PricingCard.tsx"
 
 const Pricing = () => {
   return (

@@ -1,37 +1,48 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../custom-hooks/use-axios-secure/useAxiosSecure";
+import useAuth from "../../../custom-hooks/use-auth/useAuth";
 
-const CheckoutForm = ({ price }) => {
-  const { user, loader } = useAuth()
-  console.log(typeof price);
+
+const CheckoutForm = ({ price }: { price: number | undefined }) => {
+  const { user } = useAuth();
+  // console.log(typeof price);
 
   const [error, setError] = useState("");
+  const axiosSecure = useAxiosSecure();
   const [clientSecret, setClientSecret] = useState("");
+  // const [clientSecret, setClientSecret] = useState("");
 
   const stripe = useStripe();
   const elements = useElements();
   // const totalPrice = parseInt(price);
   // console.log(typeof totalPrice);
 
-  useEffect(() => {
-    fetch("http://localhost:5000/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ "price": price }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setClientSecret(data.clientSecret)
-      });
-  }, [price]);
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/create-payment-intent", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ "price": price }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       // setClientSecret(data.clientSecret)
+  //     });
+  // }, [price]);
 
-  const handleSubmit = async (event: Event) => {
+  useEffect(() => {
+    axiosSecure.post('/create-payment-intent',{price})
+    .then(res => {
+      console.log(res?.data?.clientSecret);
+      setClientSecret(res?.data?.clientSecret);
+    })
+  }, [axiosSecure, price])
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!stripe || !elements) {
@@ -54,7 +65,7 @@ const CheckoutForm = ({ price }) => {
 
     if (error) {
       console.log("payment error", error.message);
-      setError(error.message);
+      setError(error.message || "");
     } else {
       console.log("payment method", paymentMethod);
       setError("");
@@ -69,39 +80,38 @@ const CheckoutForm = ({ price }) => {
 
     // confirm payment method
     // TODO: Some update needed here
-    // const { paymentIntent, error:confirmError} = await stripe.confirmCardPayment(clientSecret, {
-    //   payment_method: {
-    //     card: card,
-    //     billing_details: {
-    //       email: user?.email || "anonymous",
-    //       name: user?.displayName || "Name is not found"
-    //     }
-    //   }
-    // })
+      const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            email: user?.email || "anonymous",
+            name: user?.displayName || "Name is not found"
+          }
+        }
+      })
 
-    if(confirmError) {
-      console.log('confirm error');
-      
-    } else {
-      console.log('payment intent', paymentIntent);
-      
-    }
+      if (confirmError) {
+        console.log('confirm error');
+
+      } else {
+        console.log('payment intent', paymentIntent);
+
+      }
   };
-
   return (
     <div className="p-5">
-    <p className="text-xl text-center font-semibold">Your payment amout is: ${price}</p>
+      <p className="text-xl text-center font-semibold">Your payment amout is: ${price}</p>
       <form className="p-6" onSubmit={handleSubmit}>
-      <CardElement />
-      <button
-        className="btn btn-info my-6"
-        type="submit"
-        disabled={!stripe || !elements}
-      >
-        Pay
-      </button>
-      <p className="text-red-600">{error}</p>
-    </form>
+        <CardElement />
+        <button
+          className="btn btn-info my-6"
+          type="submit"
+          disabled={!stripe || !elements}
+        >
+          Pay
+        </button>
+        <p className="text-red-600">{error}</p>
+      </form>
     </div>
   );
 };
