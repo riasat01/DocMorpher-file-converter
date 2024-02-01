@@ -7,13 +7,12 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { UserCredential } from "firebase/auth";
 import { FaXTwitter } from "react-icons/fa6";
-import { TwitterAuthProvider } from "firebase/auth/cordova";
 
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
     console.log(location?.state?.pathname);
-    const { loggedinUser, createGoogleUser, createGithubUser, createTwitterUser, user } = useAuth() as AuthInfo;
+    const { loggedinUser, createGoogleUser, createGithubUser, createTwitterUser, user, setLoader } = useAuth() as AuthInfo;
     console.log(user)
     const handleLogin = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,10 +25,12 @@ const Login = () => {
                 (e.target as any).reset()
                 navigate('/');
                 console.log(user);
+                setLoader(false);
             })
             .catch((error) => {
                 toast.error('Login failed');
                 console.log(error);
+                setLoader(false);
             })
     }
 
@@ -39,26 +40,14 @@ const Login = () => {
                 toast('Successfully Login!!');
                 navigate('/')
                 console.log(result);
+                setLoader(false);
             })
             .catch((error) => {
                 toast('Login failed');
-                console.log(error?.customData);
-                console.log(TwitterAuthProvider.credentialFromError(error));
                 console.log(error);
+                setLoader(false);
             })
     }
-    // const handleGithubPopUp = () => {
-    //     createGithubUser()
-    //         .then((result) => {
-    //             toast.success('Successfully Login!!');
-    //             navigate('/');
-    //             console.log(result);
-    //         })
-    //         .catch((error) => {
-    //             toast.error('Login failed');
-    //             console.log(error);
-    //         })
-    // }
     return (
         <div className="">
             <div className="bg-[#FFFFFF]">

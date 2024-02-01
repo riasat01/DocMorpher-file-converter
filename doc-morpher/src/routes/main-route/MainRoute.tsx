@@ -12,6 +12,7 @@ import SignUp from "../../pages/SignUp/SignUp";
 import AboutUs from "../../pages/aboutUs/AboutUs";
 import UserProfile from "../../pages/UserProfile/UserProfile";
 import Pricing from "../../pages/Pricing/Pricing/Pricing";
+import Payment from "../../pages/Payment/Payment/Payment";
 
 
 
@@ -64,6 +65,10 @@ const MainRoute = createBrowserRouter([
             {
                 path: '/pricing',
                 element: <Pricing />
+            },
+            {
+                path: '/payment/:price',
+                element: <Payment />
             }
         ]
     }
