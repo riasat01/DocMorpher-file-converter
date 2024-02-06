@@ -3,7 +3,7 @@ import MainLayouot from "../../layouts/main-layout/MainLayouot";
 import ErrorPage from "../../pages/error-page/ErrorPage";
 import Home from "../../pages/home/Home";
 import QrCode from "../../pages/qr-code/QrCode";
-import Pdf from "../../pages/pdf/Pdf";
+
 import Doc from "../../pages/doc/Doc";
 import Ppt from "../../pages/ppt/Ppt";
 import Image from "../../pages/image/Image";
@@ -13,6 +13,8 @@ import AboutUs from "../../pages/aboutUs/AboutUs";
 import UserProfile from "../../pages/UserProfile/UserProfile";
 import Pricing from "../../pages/Pricing/Pricing/Pricing";
 import Payment from "../../pages/Payment/Payment/Payment";
+import Pdf from './../../pages/pdf/Pdf';
+
 
 
 
@@ -32,7 +34,7 @@ const MainRoute = createBrowserRouter([
             },
             {
                 path: '/pdf',
-                element: <Pdf />
+                element: <Pdf/>
             },
             {
                 path: '/doc',
