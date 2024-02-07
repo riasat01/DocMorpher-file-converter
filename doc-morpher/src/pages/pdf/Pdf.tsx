@@ -1,55 +1,111 @@
+
+// @ts-nocheck
 import React, { useState } from 'react';
 
-const App: React.FC = () => {
-  const [file, setFile] = useState<File | null>(null);
+const Pdf = () => {
+  const [pdfInput, setPdfInput] = useState(null);
+  const [password, setPassword] = useState('');
+  const [allText, setAllText] = useState([]);
+  const [afterUpload, setAfterUpload] = useState(false);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
-      setFile(selectedFile);
+  const handlePdfInputChange = (event) => {
+    setPdfInput(event.target.files[0]);
+  };
+
+  const extractText = async () => {
+    try {
+      if (!window.pdfjsLib) {
+        throw new Error('PDF.js library not loaded');
+      }
+
+      const file = pdfInput;
+      if (!file || file.type !== 'application/pdf') {
+        throw new Error('Select a valid PDF file');
+      }
+
+      const fr = new FileReader();
+      fr.readAsDataURL(file);
+
+      fr.onload = async () => {
+        const url = fr.result;
+        let pdf;
+
+        if (password) {
+          pdf = await window.pdfjsLib.getDocument({ url, password }).promise;
+        } else {
+          pdf = await window.pdfjsLib.getDocument(url).promise;
+        }
+
+        const pages = pdf.numPages;
+        const textArray = [];
+
+        for (let i = 1; i <= pages; i++) {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          const text = textContent.items.map((s) => s.str).join('');
+          textArray.push(text);
+        }
+
+        setAllText(textArray);
+        setAfterUpload(true);
+      };
+    } catch (err) {
+      alert(err.message);
     }
   };
 
-  const handleConvert = async () => {
-    const formData = new FormData();
-    formData.append('pdfFile', file!);
+  const handleUploadClick = () => {
+    extractText();
+  };
 
-    try {
-      const response = await fetch('http://localhost:5000/convert', {
-        method: 'POST',
-        body: formData,
-      });
-   
-      if (response.ok) {
-        // Handle the response, e.g., download the converted file.
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'converted.docx';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      } else {
-        const errorMessage = await response.text();
-        console.error('Error converting PDF to DOC', errorMessage);
-      }
-    } catch (error) {
-      console.error('Error converting PDF to DOC', error);
-    }
+  const handleAfterProcess = () => {
+    // Implement post-processing logic here if needed
   };
 
   return (
-    <div className='flex justify-center items-center'>
-    <div className=' h-96 pt-28 text-center'>
-      <input type="file" accept=".pdf" onChange={handleFileChange} />
-      <button onClick={handleConvert} disabled={!file}>
-        Convert to DOC
-      </button>
-    </div>
+    <div>
+      <h1>PDF To Text Extractor</h1>
+      <div className="pdfwork mt-3 flex justify-center items-center flex-col w-[100%] ">
+        <button className="another hidden" onClick={() => window.location.reload()}>
+          Extract Another PDF
+        </button>
+        <span>Select PDF</span>
+        <input type="file" className="selectpdf" onChange={handlePdfInputChange} />
+        <span>Password :</span>
+        <input
+          type="password"
+          className="pwd"
+          placeholder="optional"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button className="upload" onClick={handleUploadClick}>
+          Upload
+        </button>
+        {afterUpload && (
+          <div className="pdfwork flex justify-center items-center flex-col w-[100%] ">
+            <span>Select Page</span>
+            {/* Dropdown menu for selecting the page */}
+            <select className="selectpage" onChange={handleAfterProcess}>
+              {allText.map((text, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+            <a
+              href={`data:text/plain;charset=utf-8,${encodeURIComponent(allText[0])}`}
+              className="download"
+              download
+            >
+              Download Pdf Text
+            </a>
+            <textarea className="pdftext" value={allText[0]} readOnly />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default App;
+export default Pdf;
