@@ -79,7 +79,7 @@ if (fileInput){
           <label className="font-bold my-5" htmlFor="converterInput">choose converter file</label>
           <select className="select select-accent w-full max-w-xs my-5">
            
-            <option selected>Pdf</option>
+            <option>Pdf</option>
             <option>doc</option>
             <option>ppt</option>
             <option>image</option>

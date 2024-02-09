@@ -2,7 +2,7 @@ import {  Dispatch, ReactNode, SetStateAction } from "react";
 import { createContext, useEffect, useState } from "react";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, GithubAuthProvider, User, UserCredential, TwitterAuthProvider, updateProfile } from "firebase/auth";
 import auth from '../../firebase/firebase.config.js';
-// import axios from "axios";
+import useAxiosSecure from "../../custom-hooks/use-axios-secure/useAxiosSecure.js";
 
 interface CustomUser extends User {
     email: string,
@@ -54,6 +54,7 @@ const AuthProvider = ({ children }: authProviderProps) => {
 
     const [user, setUser] = useState<CustomUser | User | null>(null);
     const [loader, setLoader] = useState<boolean>(true);
+    const axiosSecure = useAxiosSecure();
 
     // create user with email and password
     const createEmailPasswordUser: (email: string, password: string) => Promise<UserCredential> = (email, password) => {
@@ -84,7 +85,7 @@ const AuthProvider = ({ children }: authProviderProps) => {
     // sigin in with email and password
     const loggedinUser: (email: string, password: string) => Promise<UserCredential> = (email, password) => {
         setLoader(true);
-        return signInWithEmailAndPassword(auth, email, password)
+        return signInWithEmailAndPassword(auth, email, password);
     }
 
     // update user info 
@@ -98,26 +99,37 @@ const AuthProvider = ({ children }: authProviderProps) => {
 
     // log out
     const logOut: () => Promise<void> = () => {
-        return signOut(auth)
+        setLoader(true);
+        return signOut(auth);
     }
 
 
 
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
+        onAuthStateChanged(auth, (currentUser) => {
+            const loggedUser = {eamil: currentUser?.email || user?.email}
+            if (currentUser) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/auth.user
+                axiosSecure.post('/jwt', loggedUser)
+                .then(res => {
+                    console.log(res);
+                })
 
-                console.log(user);
-                setUser(user);
+                console.log(currentUser);
+                setUser(currentUser);
                 setLoader(false);
 
             } else {
                 // User is signed out
                 // ...
-                setLoader(true);
+                axiosSecure.post('/logout', loggedUser)
+                    .then(res => {
+                        console.log(res.data);
+                    })
+                setUser(null);
+                setLoader(false);
             }
         }
         )
@@ -133,7 +145,7 @@ const AuthProvider = ({ children }: authProviderProps) => {
         createTwitterUser,
         loggedinUser,
         setUserInfo,
-        logOut,
+        logOut
     }
 
     return (
