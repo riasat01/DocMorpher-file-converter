@@ -7,8 +7,22 @@ import logo6 from "../../assets/Navbar-logo/qr-code.png"
 import logo7 from "../../assets/Navbar-logo/home.png"
 import logo8 from "../../assets/Navbar-logo/userPerson.png"
 import { Link, NavLink } from "react-router-dom"
+import useAuth from "../../custom-hooks/use-auth/useAuth"
 
 const Navbar = () => {
+    const {user, loader, logOut, setLoader} = useAuth();
+
+    const handleSignOut = () => {
+        logOut()
+        .then(res => {
+            setLoader(false);
+            console.log(res);
+        })
+        .catch(error => {
+            setLoader(false);
+            console.log(error);
+        })
+    }
     const routes =
         <>
             <li>
@@ -66,9 +80,42 @@ const Navbar = () => {
                 <Link to="/qrCode" className="mr-2">
                     <img className="w-6" src={logo6} alt="logo6" />
                 </Link>
-                <Link to="/login" className="btn text-lg font-semibold">
-                    <img className="w-6" src={logo4} alt="logo4" />
-                    Login</Link>
+                <section className=' hidden md:block'>
+                    {
+                        loader ?
+                        <p className='text-white animate-pulse'>loading...</p>
+                            :
+                            user?.email ?
+                                <section className="flex gap-6 items-center">
+                                    <details className="relative">
+                                        <summary className="p-0 bg-transparent hover:bg-transparent border-0">
+                                            {
+                                                user?.photoURL ?
+                                                    <img className="h-14 w-14 rounded-full" src={user?.photoURL} alt={`image of ${user.displayName}`} />
+                                                    :
+                                                    <div className="w-16 h-16 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center">
+                                                        <span className="text-xl font-medium">{user?.displayName?.charAt(0)}</span>
+                                                    </div>
+                                            }
+                                        </summary>
+                                        <ul className="absolute right-0 mt-2 p-2 w-52 bg-white border rounded shadow-md">
+                                            <li><p className="text-gray-900">{user.displayName}</p></li>
+                                            <li>
+                                                <button onClick={handleSignOut} className='w-full px-4 py-2 mt-2 text-lg font-semibold text-white rounded bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700'>
+                                                    Log Out
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </details>
+
+                                </section>
+                                :
+                                <Link to="/login" className="btn text-lg font-semibold">
+                                <img className="w-6" src={logo4} alt="logo4" />
+                                Login</Link>
+                    }
+                </section>
+                
             </div>
         </div>
     );

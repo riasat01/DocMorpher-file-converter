@@ -13,6 +13,9 @@ import AboutUs from "../../pages/aboutUs/AboutUs";
 import UserProfile from "../../pages/UserProfile/UserProfile";
 import Pricing from "../../pages/Pricing/Pricing/Pricing";
 import Payment from "../../pages/Payment/Payment/Payment";
+import Dashboard from "../../layouts/dashboard/Dashboard";
+import Users from "../../pages/dashboard-layout-pages/users-for-admin/Users";
+import AdminRoute from "../admin-route/AdminRoute";
 
 
 
@@ -69,6 +72,16 @@ const MainRoute = createBrowserRouter([
             {
                 path: '/payment/:price',
                 element: <Payment />
+            }
+        ]
+    },
+    {
+        path: '/dashboard',
+        element: <Dashboard />,
+        children: [
+            {
+                path: '/dashboard/users',
+                element: <AdminRoute><Users /></AdminRoute>
             }
         ]
     }
