@@ -64,13 +64,17 @@ const Pdf = () => {
 
   return (
     <div>
-      <h1>PDF To Text Extractor</h1>
+      <h1 className='text-center font-bold text-2xl py-2'>PDF To Text Extractor</h1>
       <div className="pdfwork mt-3 flex justify-center items-center flex-col w-[100%] ">
-        <button className="another hidden" onClick={() => window.location.reload()}>
-          Extract Another PDF
-        </button>
-        <span>Select PDF</span>
-        <input type="file" className="selectpdf" onChange={handlePdfInputChange} />
+      
+
+        <span className='font-medium px-10'>Select PDF</span>
+        <div className='flex gap-5'>
+        <input type="file" className="selectpdf btn btn-outline btn-accent mt-4 p-3 " onChange={handlePdfInputChange} />
+        </div>
+
+        <div className='flex flex-col md:flex-row p-3 ml-20 gap-5'>
+
         <span>Password :</span>
         <input
           type="password"
@@ -78,13 +82,19 @@ const Pdf = () => {
           placeholder="optional"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className="upload" onClick={handleUploadClick}>
+          />
+          </div>
+        <button className="upload btn  btn-outline btn-accent " onClick={handleUploadClick}>
           Upload
         </button>
+
+
         {afterUpload && (
           <div className="pdfwork flex justify-center items-center flex-col w-[100%] ">
-            <span>Select Page</span>
+
+            <div className='flex gap-5 my-5'>
+
+            <span className=' font-medium'>Select Page</span>
             {/* Dropdown menu for selecting the page */}
             <select className="selectpage" onChange={handleAfterProcess}>
               {allText.map((text, index) => (
@@ -93,16 +103,26 @@ const Pdf = () => {
                 </option>
               ))}
             </select>
+              </div>
             <a
               href={`data:text/plain;charset=utf-8,${encodeURIComponent(allText[0])}`}
-              className="download"
+              className="download font-medium mb-5  btn  btn-outline btn-accent "
               download
             >
               Download Pdf Text
             </a>
-            <textarea className="pdftext" value={allText[0]} readOnly />
+            <textarea className="pdftext textarea textarea-accent" value={allText[0]} readOnly />
           </div>
         )}
+
+
+    {
+      afterUpload &&
+      <button className="another btn  btn-outline btn-accent mt-5 " onClick={() => window.location.reload()}>
+          Extract Another PDF
+        </button>
+    }    
+
       </div>
     </div>
   );
