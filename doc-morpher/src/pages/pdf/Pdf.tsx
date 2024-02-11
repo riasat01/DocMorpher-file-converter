@@ -1,8 +1,11 @@
 
 // @ts-nocheck
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import TextContext from '../../Hooks/textContext/TextContext';
+
 
 const Pdf = () => {
+  const { setTextData } = useContext(TextContext);
   const [pdfInput, setPdfInput] = useState(null);
   const [password, setPassword] = useState('');
   const [allText, setAllText] = useState([]);
@@ -48,6 +51,7 @@ const Pdf = () => {
 
         setAllText(textArray);
         setAfterUpload(true);
+        setTextData(textArray[0]);
       };
     } catch (err) {
       alert(err.message);
