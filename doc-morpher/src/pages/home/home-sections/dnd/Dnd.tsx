@@ -11,10 +11,20 @@ interface DndProps {}
 
 const Dnd: React.FC<DndProps> = () => {
   const [fileList, setFileList] = useState<File[]>([]);
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
 
   const addFile = (file: File) => {
     setFileList([...fileList, file]);
+    if (file.type === "application/pdf") {
+      setPdfFile(file);
+    }
   };
+
+  // const navigateToPdfPage = () => {
+  //   // Implementation to navigate to the PDF page
+  //   // For example:
+  //   // history.push('/pdf-page');
+  // };
 
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const fileInput = event.target;
@@ -32,7 +42,17 @@ if (fileInput){
 
   const handleDelete = (updatedFileList:File[]) => {
     setFileList(updatedFileList);
+    const pdfIndex = updatedFileList.findIndex(file => file.type === "application/pdf");
+    if (pdfIndex === -1) {
+      setPdfFile(null);
+    }
   };
+
+  const navigateToPdfPage = () => {
+    window.location.href = '/pdf';
+    console.log("Navigate to PDF page");
+  };
+
   
 
   return (
@@ -46,35 +66,44 @@ if (fileInput){
       {/* dnd part */}
 
       <div className="dnd flex justify-center md:flex-row flex-col">
-        <div className="dndPart ">
+        <div className="dndPart flex justify-center gap-10 md:flex-row flex-col  ">
           <div className="flex flex-col justify-center items-center">
 
          
-         <DragArea addFile={addFile}/>
+          <DragArea addFile={addFile} navigateToPdfPage={navigateToPdfPage} />
+
+
          <div className="my-2 " >
 
          <FileList fileList={fileList} onDelete={handleDelete}/>
          </div>
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center flex-col gap-10 items-center">
           <input
               type="file"
               onChange={handleFileInputChange}
               className="import btn btn-outline btn-accent mt-4 p-3"
               multiple 
             />
+
+{
+      // isDraggedOver
+      pdfFile
+       && (
+        <button className=" btn btn-outline btn-accent" onClick={navigateToPdfPage}>Open PDF</button>
+      )}
           
             
           </div>
         </div>
-        <div className="convertToPart flex justify-center items-center ml-6 font-bold m-4">
+        {/* <div className="convertToPart flex justify-center items-center ml-6 font-bold m-4">
           Convert To
-        </div>
+        </div> */}
       </div>
 
       {/* choose convert part */}
 
-      <div className="convert flex flex-col justify-evenly">
+      {/* <div className="convert flex flex-col justify-evenly">
         <div className="flex flex-col justify-center items-center">
           <label className="font-bold my-5" htmlFor="converterInput">choose converter file</label>
           <select className="select select-accent w-full max-w-xs my-5">
@@ -88,7 +117,7 @@ if (fileInput){
         <button className="converterBtn btn btn-outline btn-accent my-5">
           Convert
         </button>
-      </div>
+      </div> */}
     </div>
     </div>
   );
