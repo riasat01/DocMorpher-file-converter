@@ -37,14 +37,12 @@ const Home = () => {
     };
     return (
         <div>
-<<<<<<< HEAD
             <h1>Document Conversion</h1>
             <button onClick={convertDocToPdf}>Convert Document to PDF</button>
             <p>{conversionStatus}</p>
-=======
+
             <Dnd></Dnd>
             <Categories />
->>>>>>> 086e65a199595ab67d74ade57ecc05827494989e
         </div>
     );
 };
