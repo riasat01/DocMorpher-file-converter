@@ -19,21 +19,6 @@ const CheckoutForm = ({ price }: { price: number | undefined }) => {
   // const totalPrice = parseInt(price);
   // console.log(typeof totalPrice);
 
-  // useEffect(() => {
-  //   fetch("http://localhost:5000/create-payment-intent", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ "price": price }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       // setClientSecret(data.clientSecret)
-  //     });
-  // }, [price]);
-
   useEffect(() => {
     axiosSecure.post('/create-payment-intent',{price})
     .then(res => {
@@ -79,7 +64,6 @@ const CheckoutForm = ({ price }: { price: number | undefined }) => {
     }
 
     // confirm payment method
-    // TODO: Some update needed here
       const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: card,
@@ -92,10 +76,17 @@ const CheckoutForm = ({ price }: { price: number | undefined }) => {
 
       if (confirmError) {
         console.log('confirm error');
-
+        // (event.target as any).reset();
       } else {
         console.log('payment intent', paymentIntent);
-
+        axiosSecure.put(`/user/${user?.email}`,{price})
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+        // (event.target as any).reset();
       }
   };
   return (

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 // import profileImage from "../../assets/images/shamim.jpg";
-import useAxiosSecure from "../../custom-hooks/use-axios-secure/useAxiosSecure";
+// import useAxiosSecure from "../../custom-hooks/use-axios-secure/useAxiosSecure";
 import SocialLinks from "./SocialLinks/SocialLinks";
 import useAuth from "../../custom-hooks/use-auth/useAuth";
+import useAxiosPublic from "../../custom-hooks/use-axios-public/useAxiosPublic";
+import { Link } from "react-router-dom";
 
 interface UserInfoInterface {
   name: string,
@@ -11,7 +13,7 @@ interface UserInfoInterface {
   type: string
 }
 
-const defaultInfo : UserInfoInterface = {
+const defaultInfo: UserInfoInterface = {
   name: '',
   email: '',
   photoURL: '',
@@ -19,19 +21,20 @@ const defaultInfo : UserInfoInterface = {
 }
 
 const UserProfile = () => {
-  const axiosSecure = useAxiosSecure();
+  // const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const [userInfo, setUserInfo] = useState(defaultInfo)
-  const {user} = useAuth();
+  const { user } = useAuth();
   useEffect(() => {
     console.log(user?.email);
-    axiosSecure.get(`/user/${user?.email}`)
-    .then(res => {
-      console.log(res?.data);
-      setUserInfo(res?.data)
-    })
-    .catch(error => {
-      console.log(error);
-    })
+    axiosPublic.get(`/user/${user?.email}`)
+      .then(res => {
+        console.log(res?.data);
+        setUserInfo(res?.data)
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }, [user?.email])
   return (
     <div className="bg-[#051F25] md:h-screen flex flex-col md:flex-row p-5">
@@ -64,9 +67,11 @@ const UserProfile = () => {
             </p>
           </div>
           <div className="flex justify-center items-center">
-            <button className="bg-[#5EF8DC] text-black font-bold px-4 py-2 rounded-md">
-              Update Profile
-            </button>
+            <Link to='/update-user'>
+              <button className="bg-[#5EF8DC] text-black font-bold px-4 py-2 rounded-md">
+                Update Profile
+              </button>
+            </Link>
           </div>
         </div>
       </div>
