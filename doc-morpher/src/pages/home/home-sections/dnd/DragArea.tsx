@@ -2,12 +2,14 @@ import { DragEvent, ChangeEvent, useState } from "react";
 
 interface DragAreaProps {
   addFile: (file: File) => void;
-  navigateToPdfPage: () => void; // Add navigateToPdfPage prop
+  // navigateToPdfPage: () => void; 
 }
 
-const DragArea: React.FC<DragAreaProps> = ({ addFile, navigateToPdfPage }) => {
+const DragArea: React.FC<DragAreaProps> = ({ addFile }) => {
   const [isDraggedOver, setIsDraggedOver] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+  const [droppedFile, setDroppedFile] = useState<File | null>(null);
+  const [isUploaded, setIsUploaded] = useState(false);
+
 
   const dragEnterHandler = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -25,27 +27,32 @@ const DragArea: React.FC<DragAreaProps> = ({ addFile, navigateToPdfPage }) => {
 
   const dragDropHandler = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const droppedFile = e.dataTransfer.files[0];
-    handleDroppedFile(droppedFile);
+    const file = e.dataTransfer.files[0];
+    setDroppedFile(file);
+    setIsUploaded(false); // Reset upload state
+    setIsDraggedOver(false);
+    addFile(file); // Pass the dropped file to the addFile function
   };
 
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const fileInput = event.target;
-    const files = fileInput.files;
-    if (files) {
-      const uploadedFile = files[0];
-      handleDroppedFile(uploadedFile);
+    const file = fileInput.files?.[0] || null;
+    setDroppedFile(file);
+    setIsUploaded(false); // Reset upload state
+
+    if (file) {
+      addFile(file); // Pass the selected file to the addFile function
     }
+    
     if (fileInput) {
       fileInput.value = "";
     }
   };
 
-  const handleDroppedFile = (file: File | null) => {
-    setIsDraggedOver(false);
-    if (file && file.type === "application/pdf") {
-      setFile(file);
-      addFile(file);
+  const handleUploadClick = () => {
+    if (droppedFile) {
+      addFile(droppedFile);
+      setIsUploaded(true);
     }
   };
 
@@ -63,6 +70,15 @@ const DragArea: React.FC<DragAreaProps> = ({ addFile, navigateToPdfPage }) => {
         style={{ display: "none" }}
       />
       <div>Drag & drop here</div>
+      {droppedFile && (
+        <div>
+          <p>Selected file: {droppedFile.name}</p>
+          {!isUploaded && (
+            <button onClick={handleUploadClick}>Upload</button>
+          )}
+          </div>
+      )}
+      
       {/* {file && file.type === "application/pdf" && (
         <button onClick={navigateToPdfPage}>Open PDF</button>
       )} */}

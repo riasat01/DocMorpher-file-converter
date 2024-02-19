@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { ChangeEvent, useState } from "react";
 import DragArea from "./DragArea";
 import FileList from "./FileList";
+import Pdf from "./../../../pdf/Pdf";
 
 interface File {
   name: string;
@@ -16,7 +18,7 @@ const Dnd: React.FC<DndProps> = () => {
   const addFile = (file: File) => {
     setFileList([...fileList, file]);
     if (file.type === "application/pdf") {
-      setPdfFile(file);
+      setPdfFile(file); 
     }
   };
 
@@ -33,6 +35,10 @@ if (files){
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       addFile(file);
+      // if (file.type === "application/pdf") {
+      //   setPdfFile(file); // Update pdfFile state when a PDF file is selected
+      // }
+
     }
   }
 if (fileInput){    
@@ -45,13 +51,14 @@ if (fileInput){
     const pdfIndex = updatedFileList.findIndex(file => file.type === "application/pdf");
     if (pdfIndex === -1) {
       setPdfFile(null);
+      console.log(pdfFile);
     }
   };
 
-  const navigateToPdfPage = () => {
-    window.location.href = '/pdf';
-    console.log("Navigate to PDF page");
-  };
+  // const navigateToPdfPage = () => {
+  //   window.location.href = `/pdf?data=${encodeURIComponent(JSON.stringify(pdfFile))}`;
+  //   console.log("Navigate to PDF page");
+  // };
 
   
 
@@ -59,7 +66,9 @@ if (fileInput){
 
     <div>
       <div> 
-       <h1 className="text-center font-bold text-3xl py-5"> File Converter (Free & premium)</h1>
+       <h1 className="text-center font-bold text-3xl py-5">
+       {" "}
+         File Converter (Free & premium)</h1>
         <h2 className="text-center font-semibold text-xl py-2">Easily convert files from one format to another</h2>
       </div>
     <div className="flex justify-evenly md:flex-row flex-col  my-10 py-3 bg-gray-200">
@@ -70,7 +79,7 @@ if (fileInput){
           <div className="flex flex-col justify-center items-center">
 
          
-          <DragArea addFile={addFile} navigateToPdfPage={navigateToPdfPage} />
+          <DragArea addFile={addFile}  />
 
 
          <div className="my-2 " >
@@ -85,14 +94,18 @@ if (fileInput){
               className="import btn btn-outline btn-accent mt-4 p-3"
               multiple 
             />
+             {pdfFile && <Pdf pdfFile={pdfFile} addFile={addFile} />}
+             
 
-{
+{/* {
       // isDraggedOver
       pdfFile
        && (
-        <button className=" btn btn-outline btn-accent" onClick={navigateToPdfPage}>Open PDF</button>
+        <button className=" btn btn-outline btn-accent" 
+        // onClick={navigateToPdfPage}
+        >Open PDF</button>
       )}
-          
+           */}
             
           </div>
         </div>
