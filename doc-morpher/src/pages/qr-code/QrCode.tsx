@@ -1,10 +1,21 @@
+
 import logo1 from "../../assets/Navbar-logo/qr-code main.png";
 import logo2 from "../../assets/Navbar-logo/arrow.png";
 import logo3 from "../../assets/Navbar-logo/add.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import QRCode from "qrcode";
+import TextContext from "../../Hooks/textContext/TextContext";
+
+
 
 const QrCode = () => {
+  const context = useContext(TextContext);
+
+  // Check if context is defined and extract textData
+  const textData = context?.textData ?? '';
+  console.log(textData);
+
+  
   const [file, setFile] = useState(
     "Change me with the converted data from the backend"
   );
