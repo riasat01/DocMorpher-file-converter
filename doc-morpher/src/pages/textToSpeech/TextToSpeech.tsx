@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-// import './TextToSpeech.css'
 import { useSpeechSynthesis } from 'react-speech-kit';
 
 function TextToSpeech() {
@@ -12,11 +10,12 @@ function TextToSpeech() {
   }
 
   return (
-    <div>
+    <div className="flex justify-center items-center py-5 gap-6 flex-col">
       
-        <h1>Text to Speech Converter in React</h1>
-        <textarea className="textAreaStyle" onChange={(e)=>{setText(e.target.value)}}></textarea>
-        <button className="buttonStyle" onClick={()=>{handleOnClick()}}>Listen</button>
+        <h1 className="text-xl font-bold
+        ">Text to Speech Converter</h1>
+        <textarea className="textAreaStyle outline rounded-lg w-96" onChange={(e)=>{setText(e.target.value)}}></textarea>
+        <button className="buttonStyle btn text-lg" onClick={()=>{handleOnClick()}}>Listen</button>
       
     </div>
   );

@@ -1,8 +1,9 @@
+import TextToSpeech from "../textToSpeech/TextToSpeech";
 
 const Doc = () => {
     return (
         <div>
-            this is doc page
+         <TextToSpeech></TextToSpeech>
         </div>
     );
 };
