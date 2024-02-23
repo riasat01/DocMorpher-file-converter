@@ -16,10 +16,10 @@ const HomeUpper = () => {
 
         <div>
             <div> 
-       <h1 className="text-center font-bold text-5xl py-5">
+       <h1 className="text-center font-bold text-5xl px-3 py-5">
        {" "}
          File Converter (Free & premium)</h1>
-        <h2 className="text-center font-semibold text-2xl py-2">Easily convert files from one format to another</h2>
+        <h2 className="text-center font-semibold text-2xl p-2">Easily convert files from one format to another</h2>
             </div>
         <div className="bg-slate-100 text-black flex justify-center items-center pb-10 rounded-lg text-5xl font-bold my-10">
         <h1  className='text-center font-semibold' style={{ paddingTop: '5rem', margin: 'auto 0' }}>

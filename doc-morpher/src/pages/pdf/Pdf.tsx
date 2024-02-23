@@ -140,13 +140,13 @@ const Pdf: React.FC<PdfProps> = ({ pdfFile }) => {
               href={`data:text/plain;charset=utf-8,${encodeURIComponent(
                 allText[0]
               )}`}
-              className="download font-medium mb-5  btn  btn-outline btn-accent "
+              className="download font-medium mb-5  btn  btn-outline  "
               download
             >
               Download Pdf Text
             </a>
             <textarea
-              className="pdftext textarea textarea-accent"
+              className="pdftext textarea outline w-80"
               value={allText[0]}
               readOnly
             />
@@ -155,7 +155,7 @@ const Pdf: React.FC<PdfProps> = ({ pdfFile }) => {
 
         {afterUpload && (
           <button
-            className="another btn  btn-outline btn-accent mt-5 "
+            className="another btn  btn-outline  mt-5 "
             onClick={() => window.location.reload()}
           >
             Extract Another PDF
