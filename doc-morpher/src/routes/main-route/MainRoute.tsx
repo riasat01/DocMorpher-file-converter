@@ -17,7 +17,9 @@ import Dashboard from "../../layouts/dashboard/Dashboard";
 import Users from "../../pages/dashboard-layout-pages/users-for-admin/Users";
 import AdminRoute from "../admin-route/AdminRoute";
 import Pdf from "../../pages/pdf/Pdf";
-
+// import Pdf from './../../pages/pdf/Pdf';
+import Pdf from './../../pages/pdf/Pdf';
+import UpdateUser from "../../pages/update-user/UpdateUser";
 
 
 
@@ -75,6 +77,10 @@ const MainRoute = createBrowserRouter([
             {
                 path: '/payment/:price',
                 element: <Payment />
+            },
+            {
+                path: '/update-user',
+                element: <UpdateUser />
             }
         ]
     },
@@ -84,7 +90,8 @@ const MainRoute = createBrowserRouter([
         children: [
             {
                 path: '/dashboard/users',
-                element: <AdminRoute><Users /></AdminRoute>
+                // element: <AdminRoute><Users /></AdminRoute>
+                element: <Users />
             }
         ]
     }
