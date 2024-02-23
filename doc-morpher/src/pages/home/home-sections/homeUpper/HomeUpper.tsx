@@ -21,8 +21,8 @@ const HomeUpper = () => {
          File Converter (Free & premium)</h1>
         <h2 className="text-center font-semibold text-2xl py-2">Easily convert files from one format to another</h2>
             </div>
-        <div className="bg-black text-white flex justify-center items-center pb-10 rounded-lg text-5xl my-10">
-        <h1  className='text-center' style={{ paddingTop: '5rem', margin: 'auto 0', fontWeight: 'normal' }}>
+        <div className="bg-slate-100 text-black flex justify-center items-center pb-10 rounded-lg text-5xl font-bold my-10">
+        <h1  className='text-center font-semibold' style={{ paddingTop: '5rem', margin: 'auto 0' }}>
           FEEL FREE TO CONVERT <br />{' '} 
           <span style={{ color: 'red', fontWeight: 'bold',marginLeft:'40px' }}>
             {/* Style will be inherited from the parent element */}
@@ -30,7 +30,7 @@ const HomeUpper = () => {
               words={['PDF', 'Image', 'Text']}
               loop={5}
               cursor
-            //   cursorStyle='_'
+              cursorStyle='_'
               typeSpeed={70}
               deleteSpeed={50}
               delaySpeed={1000}
