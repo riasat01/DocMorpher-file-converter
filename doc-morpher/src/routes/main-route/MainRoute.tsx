@@ -40,7 +40,7 @@ const MainRoute = createBrowserRouter([
         
             {
                 path: '/pdf',
-                element: <Pdf/>
+                element: <Pdf pdfFile={null}/>
             },
             {
                 path: '/doc',
