@@ -2,18 +2,19 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../custom-hooks/use-auth/useAuth";
 import { FormEvent } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { AuthInfo } from "../../provider/auth-provider/AuthProvider";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { UserCredential } from "firebase/auth";
 import { FaXTwitter } from "react-icons/fa6";
-
+import useAxiosPublic from "../../custom-hooks/use-axios-public/useAxiosPublic";
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    console.log(location?.state?.pathname);
-    const { loggedinUser, createGoogleUser, createGithubUser, createTwitterUser, user, setLoader } = useAuth() as AuthInfo;
-    console.log(user)
+    // console.log(location?.state?.pathname);
+    const { loggedinUser, createGoogleUser, createGithubUser, createTwitterUser, user, setLoader } = useAuth();
+    // console.log(user)
+    const axiosPublic = useAxiosPublic();
+
     const handleLogin = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const email = (e.target as any).email.value;
@@ -38,9 +39,22 @@ const Login = () => {
         callback()
             .then((result) => {
                 toast('Successfully Login!!');
-                navigate('/')
+                // navigate('/')
                 console.log(result);
                 setLoader(false);
+                const currentUser = {
+                    name: result?.user?.displayName,
+                    email: result?.user?.email,
+                    photoURL: result?.user?.photoURL,
+                    type: 'normal'
+                }
+                console.log(currentUser);
+                axiosPublic.post('/user', currentUser)
+                        .then( result => {
+                            console.log(result);
+                            navigate('/');
+                            // setLoader(false);
+                        })
             })
             .catch((error) => {
                 toast('Login failed');

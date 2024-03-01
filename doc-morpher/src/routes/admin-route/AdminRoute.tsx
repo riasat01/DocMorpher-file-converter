@@ -20,7 +20,7 @@ const AdminRoute = ({ children }: { children: ReactNode }) => {
     //     return children;
     // }
 
-    if (user?.email === 'admin@mail.com') {
+    if (user?.email) {
         console.log(user?.email);
         return children;
     }

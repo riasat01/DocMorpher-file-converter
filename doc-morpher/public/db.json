@@ -2,21 +2,29 @@
   {
     "reviewer_name": "John Smith",
     "days_ago": 12,
+    "image": "https://i.ibb.co/Q9r90DH/images.jpg",
+    "rating": 4.0,
     "review_g": "I recently used the file conversion website and found it incredibly user-friendly. The interface was intuitive, and the conversion process was quick and efficient. I highly recommend it!"
   },
   {
     "reviewer_name": "Emily Johnson",
     "days_ago": 6,
+    "rating": 4.5,
+    "image": "https://i.ibb.co/hm4CytV/team1.png",
     "review_g": "I've been using the file conversion website for a few days now, and it has exceeded my expectations. It supports a wide range of file formats, and the quality of the conversions is excellent. Great job!"
   },
   {
     "reviewer_name": "Michael Davis",
     "days_ago": 3,
+    "rating": 4.1,
+    "image": "https://i.ibb.co/9qsxxPV/team-17.jpg",
     "review_g": "I needed to convert some documents urgently, and this website came to the rescue. It saved me a lot of time and hassle. Thank you for providing such a valuable service!"
   },
   {
     "reviewer_name": "Jordan Davis",
     "days_ago": 1,
+    "rating": 3.5,
+    "image": "https://i.ibb.co/wC454d6/download.jpg",
     "review_g": "I needed to convert some documents urgently, and this website came to the rescue. It saved me a lot of time and hassle. Thank you for providing such a valuable service!"
   }
 ]

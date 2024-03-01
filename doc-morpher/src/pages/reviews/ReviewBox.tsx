@@ -5,10 +5,8 @@ const ReviewBox = () => {
     <div>
       <div className="flex flex-col max-w-xl p-8 shadow-sm rounded-xl lg:p-12 text-gray-900 bg-gray-100">
         <div className="flex flex-col items-center w-full">
-          <h2 className="text-3xl font-semibold text-center">
-            Your opinion matters!
-          </h2>
-          <div className="flex flex-col items-center py-6 space-y-3">
+          <h2 className="text-3xl font-semibold text-center">Your Feedback</h2>
+          {/* <div className="flex flex-col items-center py-6 space-y-3">
             <span className="text-center">How was your experience?</span>
             <div className="flex space-x-3">
               <button
@@ -82,7 +80,7 @@ const ReviewBox = () => {
                 </svg>
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="flex flex-col w-full">
             <textarea
               rows="3"
@@ -93,11 +91,11 @@ const ReviewBox = () => {
               type="button"
               className="py-4 my-8 font-semibold rounded-md text-gray-900 bg-violet-400"
             >
-              Leave feedback
+              Submit
             </button>
           </div>
         </div>
-        <div className="flex items-center justify-center">
+        {/* <div className="flex items-center justify-center">
           <a
             rel="noopener noreferrer"
             href="#"
@@ -105,7 +103,7 @@ const ReviewBox = () => {
           >
             Maybe later
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   );

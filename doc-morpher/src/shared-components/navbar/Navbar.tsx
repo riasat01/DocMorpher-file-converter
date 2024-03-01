@@ -6,6 +6,7 @@ import logo5 from "../../assets/Navbar-logo/letter-d.png";
 import logo6 from "../../assets/Navbar-logo/qr-code.png";
 import logo7 from "../../assets/Navbar-logo/home.png";
 import logo8 from "../../assets/Navbar-logo/userPerson.png";
+import logo9 from "../../assets/Navbar-logo/review.png";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../custom-hooks/use-auth/useAuth";
 
@@ -61,7 +62,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink to="/reviews" className="font-semibold md:text-lg">
-          <img className="w-6" src={logo8} alt="logo8" />
+          <img className="w-6" src={logo9} alt="logo8" />
           Reviews
         </NavLink>
       </li>

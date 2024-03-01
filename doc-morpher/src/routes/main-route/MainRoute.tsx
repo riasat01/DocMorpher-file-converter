@@ -15,9 +15,13 @@ import Pricing from "../../pages/Pricing/Pricing/Pricing";
 import Payment from "../../pages/Payment/Payment/Payment";
 import Dashboard from "../../layouts/dashboard/Dashboard";
 import Users from "../../pages/dashboard-layout-pages/users-for-admin/Users";
-import AdminRoute from "../admin-route/AdminRoute";
-import Pdf from "./../../pages/pdf/Pdf";
+// import AdminRoute from "../admin-route/AdminRoute";
+// import Pdf from "../../pages/pdf/Pdf";
+// import Pdf from './../../pages/pdf/Pdf';
+// import Pdf from './../../pages/pdf/Pdf';
+import UpdateUser from "../../pages/update-user/UpdateUser";
 import Reviews from "../../pages/reviews/Reviews";
+import Pdf from "../../pages/pdf/Pdf";
 
 const MainRoute = createBrowserRouter([
   {
@@ -33,6 +37,7 @@ const MainRoute = createBrowserRouter([
         path: "/qrCode",
         element: <QrCode />,
       },
+
       {
         path: "/pdf",
         element: <Pdf />,
@@ -46,17 +51,17 @@ const MainRoute = createBrowserRouter([
         element: <Ppt />,
       },
       {
+        path: "/reviews",
+        element: <Reviews></Reviews>,
+        loader: () => fetch("/db.json"),
+      },
+      {
         path: "/image",
         element: <Image />,
       },
       {
         path: "/profile",
         element: <UserProfile />,
-      },
-      {
-        path: "/reviews",
-        element: <Reviews></Reviews>,
-        loader: () => fetch("/db.json"),
       },
       {
         path: "/login",
@@ -78,6 +83,10 @@ const MainRoute = createBrowserRouter([
         path: "/payment/:price",
         element: <Payment />,
       },
+      {
+        path: "/update-user",
+        element: <UpdateUser />,
+      },
     ],
   },
   {
@@ -86,11 +95,8 @@ const MainRoute = createBrowserRouter([
     children: [
       {
         path: "/dashboard/users",
-        element: (
-          <AdminRoute>
-            <Users />
-          </AdminRoute>
-        ),
+        // element: <AdminRoute><Users /></AdminRoute>
+        element: <Users />,
       },
     ],
   },
