@@ -3,16 +3,22 @@ import useAuth from "../../custom-hooks/use-auth/useAuth";
 import { FormEvent } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthInfo } from "../../provider/auth-provider/AuthProvider";
+import useAxiosPublic from "../../custom-hooks/use-axios-public/useAxiosPublic";
 
 const SignUp = () => {
     const navigate = useNavigate();
     const auth = useAuth() as AuthInfo;
-    const {createEmailPasswordUser} =auth || {};
-    const handleRegitration = (e : FormEvent<HTMLFormElement>) => {
+    const { createEmailPasswordUser, setUserInfo, setLoader } = auth || {};
+    const axiosPublic = useAxiosPublic();
+
+    // handle user registration
+    const handleRegitration = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const email = (e.target as  any).email.value;
+        const name = (e.target as any).name.value;
+        const photo = (e.target as any).photo.value;
+        const email = (e.target as any).email.value;
         const password = (e.target as any).password.value;
-        
+
         console.log(email, password);
         // password validation
         if (password < 6) {
@@ -34,11 +40,33 @@ const SignUp = () => {
 
         createEmailPasswordUser(email, password)
             .then(() => {
-                toast.success('Successfully Login!!');
-                (e.target as  any).reset();
-                navigate('/')
+                setUserInfo(name, photo)
+                    .then(() => {
+                        const user = {
+                            name: name,
+                            email: email,
+                            photoURL: photo,
+                            type: 'normal'
+                        }
+                        axiosPublic.post('/user', user)
+                        .then( result => {
+                            console.log(result);
+                            toast.success('Successfully Signed up!!');
+                            (e.target as any).reset();
+                            navigate('/');
+                            setLoader(false);
+                        })
+                        setLoader(false);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        setLoader(false);
+                    })
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error);
+                setLoader(false);
+            })
 
     }
     return (
@@ -55,6 +83,18 @@ const SignUp = () => {
                             <h1 className="text-5xl font-bold">Registration now!</h1>
                             <div className="form-control">
                                 <label className="label">
+                                    <span className="label-text">Name</span>
+                                </label>
+                                <input type="text" name="name" placeholder="Name" className="input input-bordered" required />
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">PhotoURL</span>
+                                </label>
+                                <input type="text" name="photo" placeholder="photo url" className="input input-bordered" required />
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
                                 <input type="email" name="email" placeholder="email" className="input input-bordered" required />
@@ -67,7 +107,7 @@ const SignUp = () => {
                             </div>
                             <div className="form-control mt-6">
                                 {/* <button type="submit" className="btn btn-primary">Sign Up</button> */}
-                                <input type="submit"className="btn btn-primary" value="Sign Up" />
+                                <input type="submit" className="btn btn-primary" value="Sign Up" />
                             </div>
                             <div>
                                 <p>Already have a Account? <Link className="text-green-600 font-bold" to={'/login'}>Login!</Link></p>
