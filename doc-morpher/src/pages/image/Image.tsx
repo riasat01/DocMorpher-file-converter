@@ -62,10 +62,10 @@ const Image = () => {
     return (
         <div className='flex justify-center items-center flex-col gap-10 py-10'>
             <Helmet>
-                <title>Image-pdf</title>
+                <title >Image-pdf</title>
             </Helmet>
 
-            <h1 className='font-bold text-2xl'>Image to pdf</h1>
+            <h1 className='font-bold text-5xl'>Image to pdf</h1>
             <div>
             <div className='form-group mt-5'></div>
             <Dropzone
