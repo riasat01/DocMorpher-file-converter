@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import TextToSpeech from "../textToSpeech/TextToSpeech";
 const Doc = () => {
   const [error, setError] = useState(null);
 
@@ -49,6 +50,7 @@ const Doc = () => {
       <div>
         <div>
           <NavLink to="admin">Dashboard</NavLink>
+         <TextToSpeech></TextToSpeech>
         </div>
         <h1>DOCX to PDF Converter</h1>
         <form onSubmit={convertToPDF}>

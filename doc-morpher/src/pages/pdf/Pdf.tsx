@@ -93,15 +93,15 @@ const Pdf: React.FC<PdfProps> = ({ pdfFile }) => {
 
   return (
     <div>
-      <h1 className="text-center font-bold text-2xl py-2">
+      <h1 className="text-center font-bold text-5xl py-2">
         PDF To Text Extractor
       </h1>
       <div className="pdfwork mt-3 flex justify-center items-center flex-col w-[100%] ">
-        <span className="font-medium px-10">Select PDF</span>
+        <span className="font-medium text-xl px-10">Select PDF</span>
         <div className="flex gap-5">
           <input
             type="file"
-            className="selectpdf btn btn-outline btn-accent mt-4 p-3 "
+            className="selectpdf btn btn-outline mt-4 p-3 "
             onChange={handlePdfInputChange}
           />
         </div>
@@ -117,7 +117,7 @@ const Pdf: React.FC<PdfProps> = ({ pdfFile }) => {
           />
         </div>
         <button
-          className="upload btn  btn-outline btn-accent "
+          className="upload btn  btn-outline  "
           onClick={handleUploadClick}
         >
           Upload
@@ -140,13 +140,13 @@ const Pdf: React.FC<PdfProps> = ({ pdfFile }) => {
               href={`data:text/plain;charset=utf-8,${encodeURIComponent(
                 allText[0]
               )}`}
-              className="download font-medium mb-5  btn  btn-outline btn-accent "
+              className="download font-medium mb-5  btn  btn-outline  "
               download
             >
               Download Pdf Text
             </a>
             <textarea
-              className="pdftext textarea textarea-accent"
+              className="pdftext textarea outline w-80"
               value={allText[0]}
               readOnly
             />
@@ -155,14 +155,12 @@ const Pdf: React.FC<PdfProps> = ({ pdfFile }) => {
 
         {afterUpload && (
           <button
-            className="another btn  btn-outline btn-accent mt-5 "
+            className="another btn  btn-outline  mt-5 "
             onClick={() => window.location.reload()}
           >
             Extract Another PDF
           </button>
         )}
-
-        {pdfInput && <p className="selected-file">{pdfInput.name}</p>}
       </div>
     </div>
   );

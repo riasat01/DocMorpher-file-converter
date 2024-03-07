@@ -3,7 +3,7 @@ import jsPDF from 'jspdf';
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { RingLoader } from 'react-spinners';
+import { CircleLoader} from 'react-spinners';
 
 
 
@@ -36,6 +36,7 @@ const Image = () => {
             console.error(error);
         });
    
+      
     };
 
     const pdfGenerate = () => {
@@ -59,12 +60,12 @@ const Image = () => {
 
 
     return (
-        <div>
+        <div className='flex justify-center items-center flex-col gap-10 py-10'>
             <Helmet>
                 <title>Image-pdf</title>
             </Helmet>
 
-            <h1>Image to pdf</h1>
+            <h1 className='font-bold text-2xl'>Image to pdf</h1>
             <div>
             <div className='form-group mt-5'></div>
             <Dropzone
@@ -96,8 +97,8 @@ const Image = () => {
                     >
                         <input {...getInputProps()}/>
                         <img
-                        className='w-64'
-                        src='https://cdn.dribbble.com/users/527271/screenshots/6090255/media/c8f4598d29e31001516bc06721fe4f49.gif'
+                        className='w-80 rounded'
+                        src='https://i.ibb.co/nP3ZB4f/open-uri20151207-3-a4cl5i.gif'
                         />
 
                     </div>
@@ -106,20 +107,20 @@ const Image = () => {
             </Dropzone>
         </div>
         <div>
-            {loading === true && <RingLoader size={200} />}
+            {loading === true && <CircleLoader size={150} color="#008F2C" />}
         </div>
 
             <div>
                 {
                     photos !==false && (
                         <div>
-                            <h2>
+                            <h2 className='flex justify-center items-center pb-5 font-bold text-2xl'>
                                 preview of the created pdf
                             </h2>
                             <div>
                                 {
                                     photos.map((photo, index) =>(
-                                        <img
+                                        <img className='w-[400px] rounded-lg'
                                         key={index}
                                         src={URL.createObjectURL(photo)}
                                         alt={`Image ${index}`}
@@ -129,8 +130,8 @@ const Image = () => {
                             </div>
 
 
-                            <div>
-                                <button
+                            <div className='flex justify-center items-center py-5'>
+                                <button className='text-lg btn'
                                     onClick={pdfGenerate}
                                     disabled={!photos.length}
                                     >

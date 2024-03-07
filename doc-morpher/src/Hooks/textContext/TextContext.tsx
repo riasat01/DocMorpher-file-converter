@@ -13,7 +13,9 @@ export const TextProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
   return (
-    <TextContext.Provider value={{ textData, setTextData, navigateToPdfPage  }}>
+    <TextContext.Provider value={{ textData, setTextData, 
+      navigateToPdfPage  
+    }}>
       {children}
     </TextContext.Provider>
   );

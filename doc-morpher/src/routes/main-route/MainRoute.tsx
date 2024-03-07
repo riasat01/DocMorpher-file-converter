@@ -101,5 +101,4 @@ const MainRoute = createBrowserRouter([
     ],
   },
 ]);
-
 export default MainRoute;

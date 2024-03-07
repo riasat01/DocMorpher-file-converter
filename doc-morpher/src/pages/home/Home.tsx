@@ -1,15 +1,20 @@
-import TextToSpeech from "../textToSpeech/TextToSpeech";
+
+
 import Categories from "./home-sections/categories/Categories";
-import Dnd from "./home-sections/dnd/Dnd";
+import HomeUpper from "./home-sections/homeUpper/HomeUpper";
+
 
 
 
 const Home = () => {
     return (
         <div>
-            <Dnd></Dnd>
-            <TextToSpeech></TextToSpeech>
+          
+
+            <HomeUpper/>
             <Categories />
+           
+
         </div>
     );
 };
